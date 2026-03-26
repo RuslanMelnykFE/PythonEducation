@@ -125,3 +125,82 @@ class Car:
             print("Автомобіль їде")
         else:
             print("Автомобіль не готовий")
+
+
+# ======================================================================= #
+
+## Завдання 1 — Клас `BankCard` з лімітами та пін-кодом
+# Створіть клас **BankCard** з атрибутами:
+#
+# *   `owner` — власник картки
+# *   `balance` — поточний баланс
+# *   `pin` — пін-код
+# *   `daily_limit` — денний ліміт зняття грошей
+# *   `withdrawn_today` — сума вже знятих за поточний день
+# **Методи:**
+# 1.  **Метод авторизації по пін-коду**
+#     *   Логіка: перевіряє, чи співпадає введений код з піном картки. Якщо ні — доступ до операцій заборонено.
+#     *   Параметри:
+#         *   `self`
+#         *   `entered_pin` — введений користувачем пін-код
+# 2.  **
+# **
+#     *   Логіка: додає суму до балансу, але тільки якщо користувач уже авторизований.
+#     *   Параметри:
+#         *   `self`
+#         *   `amount` — сума поповнення
+# 3.  **Метод зняття грошей**
+#     *   Логіка:
+#         *   перевірити, чи авторизований користувач
+#         *   перевірити, чи вистачає грошей на балансі
+#         *   перевірити, чи не буде перевищено `daily_limit`
+#         *   якщо все ок — зменшити баланс і збільшити `withdrawn_today`
+#     *   Параметри:
+#         *   `self`
+#         *   `amount` — сума для зняття
+# 4.  **Метод скидання денного ліміту** (наприклад, на початку нового дня)
+#     *   Логіка: обнуляє `withdrawn_today`.
+#     *   Параметри:
+#         *   `self`
+
+
+class BankCard:
+    def __init__(self, owner, balance, pin, daily_limit, withdraw_today=10000):
+        self.owner = owner
+        self.balance = balance
+        self.pin = pin
+        self.daily_limit = daily_limit
+        self.withdraw_today = withdraw_today
+        self.is_authorized = False
+
+    def authentication_pin(self, pin):
+        if self.pin == pin:
+            self.is_authorized = True
+            print("Ви успішно авторизувались")
+        else:
+            print("Не вірно введено пін-код, спробуйте ще раз")
+
+    def deposit(self, amount):
+        if self.is_authorized:
+            self.balance += amount
+        else:
+            print("Ви не авторизувались")
+
+    def withdraw(self, amount):
+        if not self.is_authorized:
+            print("Ви не авторизувались")
+            return
+
+        if amount < self.balance:
+            print("не вистачає грошей на балансі")
+            return
+
+        if self.withdraw_today > self.daily_limit:
+            print("перевищено денний ліміт зняття грошей")
+            return
+
+        self.balance -= amount
+        self.withdraw_today += amount
+
+    def reset_withdraw_today(self, withdraw=10000):
+        self.withdraw_today = withdraw
