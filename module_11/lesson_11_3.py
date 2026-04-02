@@ -174,4 +174,112 @@ def create_workers():
     return workers
 
 
-# workers = workers()
+# workers = create_workers()
+
+# ======================================================================= #
+
+#  Завдання 3
+# Створіть наступні класи:
+#  Car – атрибути speed
+#  Bicycle – атрибути speed
+#  Boat – атрибути speed
+# Методи:
+#  move() – виводить повідомлення про рух
+# o Car – їде по шосе зі швидкістю
+# o Bicycle – їде по дорозі зі швидкістю
+# o Boat – пливе по воді зі швидкістю
+#  check_speed(speed) – перевіряє чи правильна швидкість,
+# якщо ні то в __init__ треба викикати ValueError з
+# відповідним повідомленням
+# o Car – від 20 до 200
+# o Bicycle – від 10 до 30
+# o Boat – від 0 до 50
+# Напишіть функцію create_vehicle() яка запитує у
+# користувача тип транспорту та потрібні атрибути і повертає
+# об’єкт.
+# Створіть декілька транспортних засобів, добавте їх у список
+# та для кожної викличте відповідні методи.
+
+
+def check_spead(spead, min_spead, max_spead):
+    if spead < min_spead or spead > max_spead:
+        raise ValueError(
+            f"Значення швидкості повинна бути в межах від {min_spead} до {max_spead}"
+        )
+
+
+class Car:
+    def __init__(self, spead: int):
+        self._spead = spead
+        self._min_spead = 20
+        self._max_spead = 200
+
+        self._check_spead()
+
+    def _check_spead(self):
+        check_spead(self._spead, self._min_spead, self._max_spead)
+
+    def move(self):
+        print(f"їде по шосе зі швидкістю: {self._spead} км/год")
+
+
+class Bicycle:
+    def __init__(self, spead: int):
+        self._check_spead()
+
+        self._spead = spead
+        self._min_spead = 10
+        self._max_spead = 30
+
+    def _check_spead(self):
+        check_spead(self._spead, self._min_spead, self._max_spead)
+
+    def move(self):
+        print(f"їде по дорозі зі швидкістю: {self._spead} км/год")
+
+
+class Boat:
+    def __init__(self, spead: int):
+        self._spead = spead
+        self._min_spead = 0
+        self._max_spead = 50
+
+        self._check_spead()
+
+    def _check_spead(self):
+        check_spead(self._spead, self._min_spead, self._max_spead)
+
+    def move(self):
+        print(f"пливе по воді зі швидкістю {self._spead} км/год")
+
+
+def create_vehicle():
+    vehicle = input("Оберіть тип транспортного засобу (Car, Bicycle, Boat): ")
+    spead = int(input("введіть швидкість транспортного засобу: "))
+
+    if vehicle.lower() == "car":
+        return Car(spead)
+
+    if vehicle.lower() == "bicycle":
+        return Bicycle(spead)
+
+    if vehicle.lower() == "boat":
+        return Boat(spead)
+
+    print("не вірно введено тип транспортного засобу")
+    return None
+
+
+def create_vehicles():
+    vehicles = []
+
+    for _ in range(4):
+        vehicle = create_vehicle()
+
+        if vehicle:
+            vehicles.append(vehicle)
+
+    return vehicles
+
+
+# vehicles = create_ehicles()
