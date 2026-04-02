@@ -77,7 +77,7 @@ def create_figure() -> Rectangle | Circle | Triangle | None:
     return None
 
 
-def create_figures():
+def create_figures() -> list:
     figures = []
 
     for _ in range(4):
@@ -89,7 +89,12 @@ def create_figures():
     return figures
 
 
-# figures = create_figures()
+new_figures = create_figures()
+
+for new_figure in new_figures:
+    perimeter = new_figure.get_perimeter()
+    print(f"{perimeter = }")
+    new_figure.display_info()
 
 # ======================================================================= #
 
@@ -142,7 +147,7 @@ class Intern:
         return round(self._base_salary / 2, 2)
 
 
-def create_worker():
+def create_worker() -> Manager | Developer | Intern | None:
     worker = input("Оберіть тип працівника (Manager, Developer, Intern): ")
     name = input("Введіть імʼя працівника: ")
     base_salary = float(input("введіть базову ставку працівника: "))
@@ -162,7 +167,7 @@ def create_worker():
     return None
 
 
-def create_workers():
+def create_workers() -> list:
     workers = []
 
     for _ in range(4):
@@ -174,7 +179,10 @@ def create_workers():
     return workers
 
 
-# workers = create_workers()
+new_workers = create_workers()
+
+for new_worker in new_workers:
+    new_worker.display_info()
 
 # ======================================================================= #
 
@@ -253,7 +261,7 @@ class Boat:
         print(f"пливе по воді зі швидкістю {self._spead} км/год")
 
 
-def create_vehicle():
+def create_vehicle() -> Car | Bicycle | Boat | None:
     vehicle = input("Оберіть тип транспортного засобу (Car, Bicycle, Boat): ")
     spead = int(input("введіть швидкість транспортного засобу: "))
 
@@ -270,7 +278,7 @@ def create_vehicle():
     return None
 
 
-def create_vehicles():
+def create_vehicles() -> list:
     vehicles = []
 
     for _ in range(4):
@@ -282,4 +290,7 @@ def create_vehicles():
     return vehicles
 
 
-# vehicles = create_ehicles()
+new_vehicles = create_vehicles()
+
+for new_vehicle in new_vehicles:
+    new_vehicle.move()
