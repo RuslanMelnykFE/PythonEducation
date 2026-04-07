@@ -32,7 +32,7 @@ class Message:
         return self._time < other._time
 
 
-def create_messages() -> List[Message] | None:
+def create_messages() -> List[Message]:
     messages = []
 
     for _ in range(4):
@@ -42,16 +42,13 @@ def create_messages() -> List[Message] | None:
 
         messages.append(Message(user, text, time))
 
-    if len(messages) == 0:
-        return messages
-
-    return messages.sort()
+    return sorted(messages, key=lambda self: self._time)
 
 
-# test_messages = create_messages()
-#
-# for message in test_messages:
-#     print(message)
+test_messages = create_messages()
+
+for message in test_messages:
+    print(message)
 
 # Завдання 2
 # Створіть клас Song з атрибутами
@@ -125,3 +122,54 @@ def create_playlist() -> PlayList:
 
 for song in create_playlist():
     print(song)
+
+
+# Завдання 3
+# Створіть клас Cart з атрибутами
+#  items – список товарів
+#  total – загальна ціна товарів
+# методи:
+#  __str__(self) – повертає рядок зі списком товарів
+#  __len__(self) – повертає кількість товарів
+#  __add__(self, other) – об’єднує 2 кошики та повертає
+# новий кошик
+# Створіть два кошики. Виведіть кількість товарів в кожному
+# з них. Виведіть самі кошики. Об’єднайте їх та виведіть
+# кількість товарів в новому кошику та товари в ньому
+
+
+class Cart:
+    def __init__(self, items: List[str], total: float):
+        self._items = items
+        self._total = total
+
+    def __str__(self):
+        return f"Список товарів: {', '.join(self._items)}"
+
+    def __len__(self):
+        return len(self._items)
+
+    def __add__(self, other):
+        return Cart(self._items + other._items, self._total + other._total)
+
+
+def create_cart() -> Cart:
+    products = []
+
+    for _ in range(4):
+        product = input("Введіть назву товару: ")
+
+        products.append(product)
+
+    total = float(input("Ввеідть загальну вартість товарів: "))
+
+    return Cart(products, total)
+
+
+cart1 = create_cart()
+cart2 = create_cart()
+cart3 = cart1 + cart2
+
+print(f"{cart1 = }, кількість товарів: {len(cart1)}")
+print(f"{cart2 = }, кількість товарів: {len(cart2)}")
+print(f"{cart3 = }, кількість товарів: {len(cart3)}")
