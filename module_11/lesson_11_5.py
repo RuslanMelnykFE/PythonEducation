@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from typing import List
+
 
 # Завдання 1
 # Створіть абстрактний клас Character, атрибути
@@ -123,6 +125,68 @@ class Paladin(Character):
         if self._defense < 0:
             self._defense = 0
 
-    def heal_ally(self, ally):
+    def heal_ally(self, ally: Character):
         heal_hp = 5 + 2 * self._level + 0.5 * self._mana
+        ally.heal(int(heal_hp))
+
+
+# Завдання 3
+# Створіть дочірній клас Mage
+# Методи:
+#  attack() – наносить 3*intelligence+4 урону та зменшує
+# mana на 3, якщо недостатньо, то не наносить урону
+#  fireball() – наносить 2*intelligence+3 урону по області та
+# зменшує mana на 5, якщо недостатньо, то не наносить
+# урону
+#  heal_ally(ally) – лікує союзника на 3 + level +
+# 3*intelligence
+
+
+class Mage(Character):
+    def attack(self) -> int:
+        if self._mana >= 3:
+            self._mana -= 3
+            return 3 * self._intelligence + 4
+
+        return 0
+
+    def fireball(self):
+        if self._mana >= 5:
+            self._mana -= 5
+            return 2 * self._intelligence + 3
+
+        return 0
+
+    def heal_ally(self, ally: Character):
+        heal_hp = 3 + self._level + 3 * self._intelligence
         ally.heal(heal_hp)
+
+
+# Завдання 4
+# Створіть дочірній клас Warrior
+# Методи:
+#  attack() – наносить 4*strength+3 урону
+#  power_strike(enemies) – проходить по списку ворогів:
+# якщо їхній рівень менший за рівень персонажа, то
+# знищує його повністю
+
+
+class Warrior(Character):
+    def attack(self) -> int:
+        return 4 * self._strength + 3
+
+    def power_strike(self, enemies: List[Character]):
+        for enemy in enemies:
+            if enemy._hp < self._hp:
+                enemy._hp = 0
+
+
+# Завдання 5
+# Створіть дочірній клас Rogue
+# Методи:
+#  attack() – наносить strength+level урону
+
+
+class Rogue(Character):
+    def attack(self) -> int:
+        return self._strength + self._level
