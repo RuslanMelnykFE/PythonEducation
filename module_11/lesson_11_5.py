@@ -43,6 +43,15 @@ class Character(ABC):
         defense: int,
         level: int = 1,
     ):
+        self._check_text(name)
+        self._check_num(hp)
+        self._check_num(intelligence)
+        self._check_num(strength)
+        self._check_num(dexterity)
+        self._check_num(mana)
+        self._check_num(defense)
+        self._check_num(level)
+
         self._name = name
         self._max_hp = hp
         self._hp = hp
