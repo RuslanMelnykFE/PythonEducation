@@ -1,6 +1,7 @@
 from abc import ABC
 from enum import Enum
 from uuid import uuid4
+from typing import Optional, List
 
 
 # Завдання 1
@@ -142,7 +143,7 @@ class CleaningRobot(Robot):
 
         if self._cleaning_mode == CleaningMode.wet:
             if water is None:
-                self._water_capacity -= 2
+                raise CleaningRobotError("Water capacity is None")
             else:
                 self._water_capacity -= water
 
@@ -157,3 +158,82 @@ class CleaningRobot(Robot):
         if self._dust_capacity >= 100:
             self._dust_capacity = 100
             raise CleaningRobotError("Dust capacity is 100")
+
+
+# авдання 3
+# Створіть дочірній клас SecurityRobot
+# Додаткові атрибути:
+#  min_speed – мінімальна швидкість руху, щоб помітити
+# об’єкт
+#  alert_level – рівень небезпеки (low, middle, high)
+#  dangerous_items – список небезпечних предметів(gun,
+# knife, bat)
+# Методи:
+#  info() – додатково виводить інформацію про робота
+#  turn_off() – перед виключенням змінює рівень небезпеки
+# на low
+#  add_dangerous_item(item) – додає небезпечний предмет
+#  remove_dangerous_item(item) – видаляє небезпечний
+# предмет
+#  detect(speed, item) – виявляє загрозу
+# o якщо швидкість занизька, то ігноруємо
+# o якщо швидкість велика, то рівень небезпеки
+# middle
+# o якщо це небезпечний предмет, то рівень
+# небезпеки high
+# Рівень небезпеки не може стати нижчим
+
+
+class AlertLevel(Enum):
+    low = "low"
+    middle = "middle"
+    high = "high"
+
+
+class SecurityRobot(Robot):
+    def __init__(
+        self,
+        name: str,
+        min_speed: int,
+        battery_level: int = 100,
+        status: Status = Status.off,
+        alert_level: AlertLevel = AlertLevel.low,
+        dangerous_items: Optional[List[str]] = None,
+    ):
+        super().__init__(name, battery_level, status)
+
+        self._min_speed = min_speed
+        self._alert_level = alert_level
+
+        if dangerous_items is None:
+            self._dangerous_items = ["gun", "knife", "bat"]
+        else:
+            self._dangerous_items = dangerous_items
+
+    def show_info(self):
+        super().show_info()
+
+        print(
+            f"Alert level: {self._alert_level.name},\n"
+            f"min_speed: {self._min_speed},\n"
+            f"Dangerous items: {', '.join(self._dangerous_items)}"
+        )
+
+    def torn_off(self):
+        self._alert_level = AlertLevel.low
+
+        super().turn_off()
+
+    def add_dangerous_item(self, item):
+        self._dangerous_items.append(item)
+
+    def remove_dangerous_item(self, item):
+        self._dangerous_items.remove(item)
+
+    def detect(self, speed, item):
+        if item in self._dangerous_items:
+            self._alert_level = AlertLevel.high
+            return
+
+        if speed > self._min_speed:
+            self._alert_level = AlertLevel.middle
