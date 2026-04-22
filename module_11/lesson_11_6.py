@@ -144,8 +144,8 @@ class CleaningRobot(Robot):
         if self._cleaning_mode == CleaningMode.wet:
             if water is None:
                 raise CleaningRobotError("Water capacity is None")
-            else:
-                self._water_capacity -= water
+
+            self._water_capacity -= water
 
             if self._water_capacity <= 0:
                 self._water_capacity = 0
@@ -237,3 +237,77 @@ class SecurityRobot(Robot):
 
         if speed > self._min_speed:
             self._alert_level = AlertLevel.middle
+
+
+# Завдання 4
+# Створіть дочірній клас AssistantRobot
+# Додаткові атрибути:
+#  tasks – список завдань(за замовчуванням порожній)
+#  current_task – поточне завдання(за замовчуванням None)
+# Методи:
+#  info() – додатково виводить інформацію про робота
+#  add_task(task) – додає завдання до списку
+#  change_task() – змінює поточне завдання, виводить на
+# екран список завдань та просить користувача вибрати
+# одне з них
+#  execute_task() – виконує поточне завдання, видяляє його
+# зі списку, та змінює current_task на наступне
+
+
+class AssistantRobot(Robot):
+    def __init__(
+        self,
+        name: str,
+        battery_level: int = 100,
+        status: Status = Status.off,
+        tasks: Optional[List[str]] = None,
+        current_task: Optional[str] = None,
+    ):
+        super().__init__(name, battery_level, status)
+
+        if tasks is None:
+            self._tasks = []
+        else:
+            self._tasks = tasks
+
+        self._current_task = current_task
+
+    def show_info(self):
+        super().show_info()
+
+        print(
+            f"List of tasks: {', '.join(self._current_task)},\n"
+            f"Current task: {self._current_task}"
+        )
+
+    def add_task(self, task):
+        self._tasks.append(task)
+
+    def change_task(self):
+        print(f"Список завдань: {', '.join(self._current_task)}")
+
+        while True:
+            task = input("Оберіть задання зі сиску: ")
+
+            if task not in self._tasks:
+                print("Такого завдання не має в списку, спробуйте ще")
+                continue
+
+            self._current_task = task
+            return
+
+    def execute_task(self):
+        if self._current_task is None and len(self._tasks) > 0:
+            self._current_task = self._tasks[0]
+            return
+
+        print(f"Завдання {self._current_task} виконано")
+
+        idx = self._tasks.index(self._current_task)
+        self._tasks.remove(self._current_task)
+
+        if idx < len(self._tasks):
+            self._current_task = self._tasks[idx]
+            return
+
+        print("Всі завдання виконано")
