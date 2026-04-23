@@ -193,9 +193,30 @@ class Cart:
     def load(self, filename: str = "cart.json") -> None:
         with open(filename, "r", encoding="utf-8") as file:
             data = json.load(file)
-            self._user = data["user"]
-            self._items = data["products"]
-            self._total = data["total"]
+
+        self._user = data["user"]
+        self._items = data["products"]
+        self._total = data["total"]
+
+
+# Завдання 3
+# Створіть файл settings.json з базовими налаштуваннями
+# програми, наприклад графічного інтерфейсу:
+#  розмір зображення – 500х600
+#  колір фону – сірий
+#  колір кнопок – світлосірий
+#  розміщення кнопок – [100, 50]
+#  інструкція користувачу
+# Напишіть код, де завантажується налаштування і
+# створюються відповідні змінні size, background_color, …
+
+
+def get_values():
+    with open("settings.json", "r", encoding="utf-8") as file:
+        settings = json.load(file)
+
+    for key, value in settings.items():
+        print(f"{key}: {value}")
 
 
 if __name__ == "__main__":
