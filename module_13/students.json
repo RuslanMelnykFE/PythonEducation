@@ -1,0 +1,26 @@
+{
+  "name_1": {
+    "specialization": "specialization 1",
+    "grades": [
+      10,
+      2,
+      8
+    ]
+  },
+  "name_2": {
+    "specialization": "specialization 2",
+    "grades": [
+      10,
+      2,
+      8
+    ]
+  },
+  "name_3": {
+    "specialization": "specialization 3",
+    "grades": [
+      10,
+      2,
+      8
+    ]
+  }
+}
