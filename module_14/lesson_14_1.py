@@ -1,3 +1,4 @@
+import json
 import threading
 
 
@@ -74,3 +75,50 @@ print("Обчислення заверщшено 2")
 # парні елементи списку. Другий потік створює новий файл,
 # в який запише лише непарні елементи списку. Кількість
 # парних і непарних елементів виводиться на екран.
+
+
+def find_even(numbers):
+    evens = []
+
+    for num in numbers:
+        if num % 2 == 0:
+            evens.append(num)
+
+    print(f"Evens: {len(evens)}")
+
+    return evens
+
+
+def save_even(evens):
+    with open("evens.json", "w", encoding="utf-8") as f:
+        json.dump({"evens": evens}, f)
+
+
+def find_odd(numbers):
+    odds = []
+
+    for num in numbers:
+        if num % 2 == 1:
+            odds.append(num)
+
+    print(f"Odds: {len(odds)}")
+
+    return odds
+
+
+def save_odd(odds):
+    with open("odds.json", "w", encoding="utf-8") as f:
+        json.dump({"odds": odds}, f)
+
+
+thread_even = threading.Thread(target=save_even, args=(find_even(nums),))
+
+thread_odd = threading.Thread(target=save_odd, args=(find_odd(nums),))
+
+thread_even.start()
+thread_odd.start()
+
+thread_even.join()
+thread_odd.join()
+
+print("Обчислення заверщшено 3")
