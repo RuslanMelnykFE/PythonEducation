@@ -8,26 +8,44 @@ import threading
 nums = list(map(int, input("Введіть числа через пробіл: ").split()))
 
 
-def find_max(numbers):
-    maximum = max(numbers)
-    print(f"Максимум у списку: {maximum}")
+def find_max(numbers, results: dict[str, int]):
+    results["maximum"] = max(numbers)
 
 
-def find_min(numbers):
-    minimum = min(numbers)
-    print(f"Мінімум у списку: {minimum}")
+def find_min(numbers, results: dict[str, int]):
+    results["minimum"] = min(numbers)
 
 
-thread_max = threading.Thread(target=find_max, args=(nums,))
-thread_min = threading.Thread(target=find_min, args=(nums,))
+def start_task1():
+    results: dict[str, int] = {}
 
-thread_max.start()
-thread_min.start()
+    thread_max = threading.Thread(
+        target=find_max,
+        args=(
+            nums,
+            results,
+        ),
+    )
+    thread_min = threading.Thread(
+        target=find_min,
+        args=(
+            nums,
+            results,
+        ),
+    )
 
-thread_max.join()
-thread_min.join()
+    thread_max.start()
+    thread_min.start()
 
-print("Обчислення завершено.")
+    thread_max.join()
+    thread_min.join()
+
+    print(f"Максимум у списку: {results['maximum']}")
+    print(f"Мінімум у списку: {results['minimum']}")
+    print("Обчислення завершено.")
+
+
+start_task1()
 
 
 # Завдання 2
@@ -37,36 +55,44 @@ print("Обчислення завершено.")
 # виведіть на екран.
 
 
-def find_sum(numbers):
+def find_sum(numbers, results: dict[str, int]):
     elements_sum = 0
 
     for num in numbers:
         elements_sum += num
 
-    print(f"Sum: {elements_sum}")
+    results["sum"] = elements_sum
 
 
-def find_arithmetic_mean(numbers):
+def find_arithmetic_mean(numbers, results: dict[str, float]):
     elements_sum = 0
+
     for num in numbers:
         elements_sum += num
 
-    arithmetic_mean = elements_sum / len(numbers)
-
-    print(f"Arithmetic mean: {arithmetic_mean}")
+    results["arithmetic_mean"] = elements_sum / len(numbers)
 
 
-thread_max = threading.Thread(target=find_sum, args=(nums,))
+def start_task2():
+    results: dict[str, int] = {}
 
-thread_arithmetic_mean = threading.Thread(target=find_arithmetic_mean, args=(nums,))
+    thread_max = threading.Thread(target=find_sum, args=(nums,))
 
-thread_max.start()
-thread_arithmetic_mean.start()
+    thread_arithmetic_mean = threading.Thread(target=find_arithmetic_mean, args=(nums,))
 
-thread_max.join()
-thread_arithmetic_mean.join()
+    thread_max.start()
+    thread_arithmetic_mean.start()
 
-print("Обчислення заверщшено 2")
+    thread_max.join()
+    thread_arithmetic_mean.join()
+
+    print(f"Sum: {results['sum']}")
+    print(f"Arithmetic mean: {results['arithmetic_mean']}")
+    print("Обчислення заверщшено 2")
+
+
+start_task2()
+
 
 # Завдання 3
 # Користувач вводить з клавіатури шлях до файлу, що
@@ -75,9 +101,18 @@ print("Обчислення заверщшено 2")
 # парні елементи списку. Другий потік створює новий файл,
 # в який запише лише непарні елементи списку. Кількість
 # парних і непарних елементів виводиться на екран.
+def get_number(filepath: str) -> list[int]:
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            return json.loads(f.read())["numbers"]
+
+    except FileNotFoundError:
+        print("Файл не знайдено!")
+        return []
 
 
-def find_even(numbers):
+def find_even():
+    numbers = get_number("numbers.json")
     evens = []
 
     for num in numbers:
@@ -89,12 +124,15 @@ def find_even(numbers):
     return evens
 
 
-def save_even(evens):
+def save_even():
+    evens = find_even()
+
     with open("evens.json", "w", encoding="utf-8") as f:
         json.dump({"evens": evens}, f)
 
 
-def find_odd(numbers):
+def find_odd():
+    numbers = get_number("numbers.json")
     odds = []
 
     for num in numbers:
@@ -106,19 +144,62 @@ def find_odd(numbers):
     return odds
 
 
-def save_odd(odds):
+def save_odd():
+    odds = find_odd()
+
     with open("odds.json", "w", encoding="utf-8") as f:
         json.dump({"odds": odds}, f)
 
 
-thread_even = threading.Thread(target=save_even, args=(find_even(nums),))
+def start_task3():
+    thread_even = threading.Thread(target=save_even)
+    thread_odd = threading.Thread(target=save_odd)
 
-thread_odd = threading.Thread(target=save_odd, args=(find_odd(nums),))
+    thread_even.start()
+    thread_odd.start()
 
-thread_even.start()
-thread_odd.start()
+    thread_even.join()
+    thread_odd.join()
 
-thread_even.join()
-thread_odd.join()
+    print("Обчислення заверщшено 3")
 
-print("Обчислення заверщшено 3")
+
+# Завдання 4
+# Користувач вводить з клавіатури шлях до файлу та
+# слово для пошуку. Після чого запускається потік для
+# пошуку цього слова у файлі. Результат пошуку виведіть
+# на екран.
+
+
+def search_word(filepath, word):
+    try:
+        with open(filepath, "r", encoding="utf-8") as file:
+            content = file.read()
+
+        count = content.lower().count(word.lower())
+
+        if count > 0:
+            print(f"Слово '{word}' знайдено {count} раз(и).")
+        else:
+            print(f"Слово '{word}' не знайдено у файлі.")
+
+    except FileNotFoundError:
+        print("Файл не знайдено!")
+
+    except Exception as e:
+        print("Помилка:", e)
+
+
+def start_task4():
+    filepath = input("Введіть шлях до файлу: ")
+    word = input("Введіть слово для пошуку: ")
+
+    thread_search = threading.Thread(target=search_word, args=(filepath, word))
+
+    thread_search.start()
+    thread_search.join()
+
+    print("Пошук заверщшено 4")
+
+
+start_task4()
