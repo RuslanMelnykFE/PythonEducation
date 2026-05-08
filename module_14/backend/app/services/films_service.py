@@ -1,0 +1,37 @@
+import json
+from typing import List, Dict
+from module_14.backend.app.models.films_model import Movie
+
+
+MOVIES_FILE = "movies.json"
+
+
+def load_movies() -> List[Dict[str, str | int]]:
+    try:
+        with open(MOVIES_FILE, "r", encoding="utf-8") as file:
+            return json.load(file)
+
+    except FileNotFoundError:
+        print("Movies file not found.")
+        return []
+
+
+def save_movies(movies: List[Dict]) -> None:
+    try:
+        with open(MOVIES_FILE, "w", encoding="utf-8") as file:
+            json.dump(movies, file, indent=2)
+
+    except FileNotFoundError:
+        print("Movies file not found.")
+
+
+def add_movie(movie: Movie) -> None:
+    movies = load_movies()
+    movies.append(movie.model_dump())
+    save_movies(movies)
+
+
+def delete_movie(movie_id: str) -> None:
+    movies = load_movies()
+    new_movies = [movie for movie in movies if movie["id"] != movie_id]
+    save_movies(new_movies)
