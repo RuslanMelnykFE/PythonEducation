@@ -1,7 +1,13 @@
 FROM python:3.11-slim
 
-WORKDIR app
+WORKDIR /app
 
-COPY ./ ./
+COPY requirements.txt .
 
-CMD ["python3", "lesson_14_1"]
+RUN pip install -r requirements.txt
+
+EXPOSE 8080
+
+COPY . .
+
+CMD ["python3", "main.py"]
