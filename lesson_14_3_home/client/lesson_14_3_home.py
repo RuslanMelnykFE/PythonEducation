@@ -8,7 +8,7 @@
 import requests
 
 
-URL = "http://127.0.0.1:8000"
+URL = "http://0.0.0.0:8080"
 
 
 def get_movie(movie_id: str) -> dict[str, str | int]:
