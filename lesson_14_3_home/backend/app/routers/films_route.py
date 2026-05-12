@@ -1,7 +1,5 @@
 from fastapi import APIRouter, HTTPException
 
-from typing import List
-
 from app.schemas.films_schema import Movie
 from app.schemas.responses import Response
 
@@ -16,7 +14,7 @@ from app.services.films_service import (
 router = APIRouter(prefix="/movies", tags=["Movies"])
 
 
-@router.get("/{movie_id}", response_model=List[Movie])
+@router.get("/{movie_id}", response_model=Movie)
 def get_movie(movie_id: str) -> dict[str, str | int] | None:
     movies = load_movies()
 
@@ -35,6 +33,7 @@ def added_movie(movie: Movie) -> Response:
     return Response(message="Movie added")
 
 
-@router.delete("/movies/{movie_id}")
+@router.delete("/movies/{movie_id}", response_model=Response)
 def del_movie(movie_id: str):
     delete_movie(movie_id)
+    return Response(message="Movie deleted")

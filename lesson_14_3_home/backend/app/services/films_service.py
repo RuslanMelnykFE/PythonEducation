@@ -1,9 +1,10 @@
 import json
+from pathlib import Path
 from typing import List, Dict
 from app.schemas.films_schema import Movie
 
 
-MOVIES_FILE = "movies.json"
+MOVIES_FILE = Path("app/data/movies.json")
 
 
 def load_movies() -> List[Dict[str, str | int]]:

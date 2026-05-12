@@ -10,6 +10,5 @@ EXPOSE 8080
 
 COPY app ./app
 
-#CMD ["python3", "-u", "app.main.py"]
-#CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["python3", "-u", "app.main"]
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
