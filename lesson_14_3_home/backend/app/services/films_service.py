@@ -1,10 +1,13 @@
 import json
 from pathlib import Path
 from typing import List, Dict
+from fastapi import HTTPException
+
+from settings_app import settings
 from app.schemas.films_schema import Movie
 
 
-MOVIES_FILE = Path("app/data/movies.json")
+MOVIES_FILE = Path(settings.data_file_path)
 
 
 def load_movies() -> List[Dict[str, str | int]]:
@@ -28,6 +31,12 @@ def save_movies(movies: List[Dict]) -> None:
 
 def add_movie(movie: Movie) -> None:
     movies = load_movies()
+
+    if len(movies) == settings.max_films:
+        raise HTTPException(
+            status_code=409, detail=f"Maximum number of films is {settings.max_films}"
+        )
+
     movies.append(movie.model_dump())
     save_movies(movies)
 

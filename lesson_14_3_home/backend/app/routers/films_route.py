@@ -15,16 +15,14 @@ router = APIRouter(prefix="/movies", tags=["Movies"])
 
 
 @router.get("/{movie_id}", response_model=Movie)
-def get_movie(movie_id: str) -> dict[str, str | int] | None:
+def get_movie(movie_id: str) -> Movie:
     movies = load_movies()
 
     for movie in movies:
         if movie["id"] == movie_id:
             return movie
-        else:
-            raise HTTPException(status_code=404, detail="Movie not found")
 
-    return None
+    raise HTTPException(status_code=404, detail="Movie not found")
 
 
 @router.post("/", response_model=Response)
@@ -33,7 +31,7 @@ def added_movie(movie: Movie) -> Response:
     return Response(message="Movie added")
 
 
-@router.delete("/movies/{movie_id}", response_model=Response)
+@router.delete("/{movie_id}", response_model=Response)
 def del_movie(movie_id: str):
     delete_movie(movie_id)
     return Response(message="Movie deleted")
