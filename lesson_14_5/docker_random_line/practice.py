@@ -6,10 +6,7 @@ from settings import settings
 
 while True:
     random_len = randint(settings.min_len, settings.max_len)
-    line = ""
-
-    for i in range(random_len):
-        line += str(settings.symbol)
+    line = settings.symbol * random_len
 
     print(line)
 

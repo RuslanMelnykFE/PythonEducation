@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     data_file_path: str = "app/data/books.json"
 
     model_config = SettingsConfigDict(
-        env_file="../.env",
+        env_file=".env",
         env_file_encoding="utf-8",
     )
 
