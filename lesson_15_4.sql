@@ -1,0 +1,367 @@
+-- ¾ Відділення (Departments)
+-- CREATE TABLE DEPARTMENTS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	NAME VARCHAR (100) NOT NULL CHECK (NAME <> '') UNIQUE
+-- )
+
+-- INSERT INTO DEPARTMENTS (NAME) VALUES
+-- ('Кардіологія'),
+-- ('Неврологія'),
+-- ('Терапія'),
+-- ('Хірургія'),
+-- ('Педіатрія'),
+-- ('Дерматологія'),
+-- ('Офтальмологія'),
+-- ('ЛОР-відділення'),
+-- ('Онкологія'),
+-- ('Гінекологія'),
+-- ('Урологія'),
+-- ('Інфекційне відділення')
+
+
+-- ¾ Лікарі (Doctors)
+-- CREATE TABLE DOCTORS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	NAME VARCHAR (255) NOT NULL CHECK (NAME <> ''),
+-- 	SURNAME VARCHAR (255) NOT NULL CHECK (SURNAME <> ''),
+-- 	PREMIUM MONEY NOT NULL CHECK (PREMIUM >= 0::MONEY) DEFAULT 0,
+-- 	SALARY MONEY NOT NULL CHECK (SALARY > 0::MONEY),
+-- 	DEPARTMENT_ID INT NOT NULL,
+-- 	FOREIGN KEY (DEPARTMENT_ID) REFERENCES DEPARTMENTS (ID)
+-- )
+
+-- INSERT INTO DOCTORS (NAME, SURNAME, PREMIUM, SALARY, DEPARTMENT_ID) VALUES
+-- ('Іван', 'Петренко', 100::money, 1500::money, 1),
+-- ('Олена', 'Коваль', 200::money, 1800::money, 2),
+-- ('Андрій', 'Шевченко', 50::money, 1600::money, 3),
+-- ('Марія', 'Бондар', 0::money, 1400::money, 4),
+-- ('Павло', 'Ткаченко', 300::money, 2000::money, 5),
+-- ('Наталія', 'Кравчук', 120::money, 1700::money, 6),
+-- ('Юрій', 'Мельник', 75::money, 1550::money, 7),
+-- ('Світлана', 'Савченко', 90::money, 1650::money, 8),
+-- ('Віктор', 'Романенко', 250::money, 1900::money, 9),
+-- ('Ірина', 'Лисенко', 180::money, 1750::money, 10),
+-- ('Олег', 'Гриценко', 60::money, 1500::money, 11),
+-- ('Тетяна', 'Марчук', 110::money, 1600::money, 12),
+-- ('Сергій', 'Черненко', 95::money, 1700::money, 1),
+-- ('Людмила', 'Яремчук', 210::money, 1850::money, 2),
+-- ('Василь', 'Дяченко', 130::money, 1800::money, 3),
+-- ('Галина', 'Панченко', 80::money, 1550::money, 4),
+-- ('Микола', 'Олійник', 170::money, 1900::money, 5),
+-- ('Руслан', 'Захаренко', 140::money, 2100::money, 6),
+-- ('Катерина', 'Сидорчук', 100::money, 1650::money, 7),
+-- ('Богдан', 'Тарасенко', 220::money, 2000::money, 8),
+-- ('Анна', 'Поліщук', 50::money, 1500::money, 9),
+-- ('Роман', 'Климчук', 75::money, 1600::money, 10),
+-- ('Юлія', 'Гончар', 130::money, 1750::money, 11),
+-- ('Дмитро', 'Василенко', 200::money, 1950::money, 12),
+-- ('Оксана', 'Білик', 90::money, 1650::money, 1),
+-- ('Ігор', 'Шумило', 160::money, 1800::money, 2),
+-- ('Леся', 'Ковтун', 120::money, 1700::money, 3),
+-- ('Артем', 'Мороз', 70::money, 1550::money, 4),
+-- ('Назар', 'Костенко', 180::money, 1900::money, 5),
+-- ('Валентина', 'Руденко', 110::money, 1750::money, 6),
+-- ('Степан', 'Ющенко', 140::money, 1850::money, 7),
+-- ('Зоряна', 'Лук’яненко', 60::money, 1500::money, 8),
+-- ('Тарас', 'Бережний', 200::money, 2100::money, 9),
+-- ('Марина', 'Скорик', 130::money, 1800::money, 10),
+-- ('Петро', 'Гайдук', 90::money, 1600::money, 11),
+-- ('Алла', 'Нечай', 170::money, 1900::money, 12),
+-- ('Євген', 'Кириленко', 150::money, 2000::money, 1);
+
+
+-- ¾ Спеціалізації (Specializations)
+-- CREATE TABLE SPECIALIZATIONS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	NAME VARCHAR (100) NOT NULL CHECK(NAME <> '') UNIQUE
+-- );
+
+-- INSERT INTO SPECIALIZATIONS (NAME) VALUES
+-- ('Терапевт'),
+-- ('Кардіолог'),
+-- ('Невролог'),
+-- ('Хірург'),
+-- ('Педіатр'),
+-- ('Офтальмолог'),
+-- ('Дерматолог'),
+-- ('Отоларинголог'),
+-- ('Онколог'),
+-- ('Ендокринолог'),
+-- ('Гінеколог'),
+-- ('Уролог')
+
+
+-- ¾ Лікарі та спеціалізації (DoctorsSpecializations)
+-- CREATE TABLE DOCTORS_SPECIALIZATIONS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	DOCTOR_ID INT NOT NULL,
+-- 	SPECIALIZATION_ID INT NOT NULL,
+-- 	FOREIGN KEY (DOCTOR_ID) REFERENCES DOCTORS (ID),
+-- 	FOREIGN KEY (SPECIALIZATION_ID) REFERENCES SPECIALIZATIONS (ID)
+-- )
+
+-- INSERT INTO DOCTORS_SPECIALIZATIONS (DOCTOR_ID, SPECIALIZATION_ID) VALUES
+-- (1, 1),
+-- (2, 2),
+-- (3, 3),
+-- (4, 4),
+-- (5, 5),
+-- (6, 6),
+-- (7, 7),
+-- (8, 8),
+-- (9, 9),
+-- (10, 10),
+-- (11, 11),
+-- (12, 12),
+-- (13, 1),
+-- (14, 2),
+-- (15, 3),
+-- (16, 4),
+-- (17, 5),
+-- (18, 6),
+-- (19, 7),
+-- (20, 8),
+-- (21, 9),
+-- (22, 10),
+-- (23, 11),
+-- (24, 12),
+-- (25, 1),
+-- (26, 2),
+-- (27, 3),
+-- (28, 4),
+-- (29, 5),
+-- (30, 6),
+-- (31, 7),
+-- (32, 8),
+-- (33, 9),
+-- (34, 10),
+-- (35, 11),
+-- (36, 12),
+-- (37, 1)
+
+
+-- ¾ Спонсори (Sponsors)
+-- ■ Ідентифікатор (Id). Унікальний ідентифікатор
+-- спонсора.
+-- ▷ Тип даних — int.
+-- ▷ Автоприріст.
+-- ▷ Не містить null-значення.
+-- ▷ Первинний ключ.
+-- ■ Назва (Name). Назва спонсора.
+-- ▷ Тип даних — varchar(100).
+-- ▷ Не містить null-значення.
+-- ▷ Не може бути порожньою.
+-- ▷ Має бути унікальною.
+
+-- CREATE TABLE SPONSORS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	NAME VARCHAR (100)
+-- )
+
+-- INSERT INTO SPONSORS (NAME) VALUES
+-- ('Фонд здоров’я України'),
+-- ('Добродій Мед'),
+-- ('LifeCare Foundation'),
+-- ('Медична допомога+'),
+-- ('Global Health Aid'),
+-- ('Турбота і підтримка'),
+-- ('CharityMed UA'),
+-- ('Фонд Світло життя'),
+-- ('Healthy Future Org'),
+-- ('Допомога лікарням'),
+-- ('United Care Group'),
+-- ('Благодійний фонд Надія'),
+-- ('Health Support Initiative'),
+-- ('Добрі серця'),
+-- ('Care4People'),
+-- ('Медична підтримка 24'),
+-- ('Hope & Help Foundation'),
+-- ('Фонд розвитку медицини');
+
+
+-- ¾ Пожертвування (Donations)
+-- CREATE TABLE DONATIONS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	AMOUNT MONEY NOT NULL CHECK (AMOUNT > 0::MONEY),
+-- 	DATE DATE NOT NULL CHECK (DATE <= CURRENT_DATE) DEFAULT CURRENT_DATE,
+-- 	DEPARTMENT_ID INT NOT NULL,
+-- 	SPONSOR_ID INT NOT NULL,
+-- 	FOREIGN KEY (DEPARTMENT_ID) REFERENCES DEPARTMENTS (ID),
+-- 	FOREIGN KEY (SPONSOR_ID) REFERENCES SPONSORS (ID)
+-- )
+
+-- INSERT INTO DONATIONS (AMOUNT, DATE, DEPARTMENT_ID, SPONSOR_ID) VALUES
+-- (500::money, '2024-01-10', 1, 1),
+-- (1200::money, '2024-02-14', 2, 2),
+-- (300::money, '2024-03-05', 3, 3),
+-- (750::money, '2024-04-18', 4, 4),
+-- (1500::money, '2024-05-22', 5, 5),
+-- (200::money, '2024-06-01', 6, 6),
+-- (950::money, '2024-07-09', 7, 7),
+-- (400::money, '2024-08-17', 8, 8),
+-- (1100::money, '2024-09-25', 9, 9),
+-- (600::money, '2024-10-03', 10, 10),
+-- (1300::money, '2024-11-11', 11, 11),
+-- (700::money, '2024-12-20', 12, 12),
+-- (800::money, '2025-01-12', 1, 13),
+-- (1400::money, '2025-02-28', 2, 14),
+-- (350::money, '2025-03-19', 3, 15),
+-- (900::money, '2025-04-30', 4, 16),
+-- (1600::money, '2025-05-16', 5, 17),
+-- (450::money, '2025-06-07', 6, 18),
+-- (1000::money, '2025-07-21', 7, 1),
+-- (550::money, '2025-09-02', 8, 2),
+-- (1250::money, '2025-10-10', 9, 3);
+
+
+-- ¾ Відпустки(Vacations)
+-- CREATE TABLE VACATIONS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	END_DATE DATE NOT NULL CHECK (END_DATE > START_DATE),
+-- 	START_DATE DATE NOT NULL,
+-- 	DOCTOR_ID INT NOT NULL,
+-- 	FOREIGN KEY (DOCTOR_ID) REFERENCES DOCTORS (ID)
+-- )
+
+-- INSERT INTO VACATIONS (END_DATE, START_DATE, DOCTOR_ID) VALUES
+-- ('2024-01-20', '2024-01-10', 1),
+-- ('2024-02-18', '2024-02-05', 2),
+-- ('2024-03-25', '2024-03-15', 3),
+-- ('2024-04-12', '2024-04-01', 4),
+-- ('2024-05-30', '2024-05-20', 5),
+-- ('2024-06-18', '2024-06-05', 6),
+-- ('2024-07-22', '2024-07-10', 7),
+-- ('2024-08-14', '2024-08-01', 8),
+-- ('2024-09-19', '2024-09-05', 9),
+-- ('2024-10-15', '2024-10-01', 10),
+-- ('2024-11-18', '2024-11-05', 11),
+-- ('2024-12-28', '2024-12-15', 12),
+-- ('2025-01-20', '2025-01-10', 13),
+-- ('2025-02-18', '2025-02-03', 14),
+-- ('2025-03-22', '2025-03-10', 15),
+-- ('2025-04-16', '2025-04-05', 16),
+-- ('2025-05-28', '2025-05-15', 17),
+-- ('2025-06-18', '2025-06-05', 18),
+-- ('2025-07-24', '2025-07-10', 19),
+-- ('2025-08-20', '2025-08-08', 20),
+-- ('2025-09-18', '2025-09-05', 21),
+-- ('2025-10-15', '2025-10-01', 22),
+-- ('2025-11-20', '2025-11-07', 23),
+-- ('2025-12-27', '2025-12-15', 24),
+-- ('2026-01-20', '2026-01-10', 25),
+-- ('2026-02-18', '2026-02-05', 26),
+-- ('2026-03-22', '2026-03-12', 27),
+-- ('2026-04-18', '2026-04-06', 28),
+-- ('2026-05-25', '2026-05-12', 29),
+-- ('2026-06-10', '2026-06-01', 30),
+-- ('2026-06-15', '2026-06-05', 31),
+-- ('2026-06-20', '2026-06-08', 32),
+-- ('2026-06-25', '2026-06-12', 33),
+-- ('2026-06-28', '2026-06-15', 34),
+-- ('2026-06-30', '2026-06-18', 35),
+-- ('2026-07-10', '2026-07-01', 36),
+-- ('2026-07-15', '2026-07-05', 37);
+
+
+-- ¾ Палати (Wards)
+-- CREATE TABLE WARDS (
+-- 	ID SERIAL PRIMARY KEY,
+-- 	NAME VARCHAR (20) NOT NULL CHECK(NAME <> '') UNIQUE,
+-- 	DEPARTMENT_ID INT NOT NULL,
+-- 	FOREIGN KEY (DEPARTMENT_ID) REFERENCES DEPARTMENTS (ID)
+-- )
+
+-- INSERT INTO WARDS (NAME, DEPARTMENT_ID) VALUES
+-- ('Палата 101', 1),
+-- ('Палата 102', 1),
+-- ('Палата 103', 2),
+-- ('Палата 104', 2),
+-- ('Палата 105', 3),
+-- ('Палата 106', 3),
+-- ('Палата 107', 4),
+-- ('Палата 108', 4),
+-- ('Палата 109', 5),
+-- ('Палата 110', 5),
+-- ('Палата 111', 6),
+-- ('Палата 112', 6),
+-- ('Палата 113', 7),
+-- ('Палата 114', 7),
+-- ('Палата 115', 8),
+-- ('Палата 116', 8),
+-- ('Палата 117', 9),
+-- ('Палата 118', 9),
+-- ('Палата 119', 10),
+-- ('Палата 120', 10),
+-- ('Палата 121', 11),
+-- ('Палата 122', 11),
+-- ('Палата 123', 12),
+-- ('Палата 124', 12),
+-- ('Палата 125', 1),
+-- ('Палата 126', 2),
+-- ('Палата 127', 3),
+-- ('Палата 128', 4),
+-- ('Палата 129', 5),
+-- ('Палата 130', 6),
+-- ('Палата 131', 7),
+-- ('Палата 132', 8),
+-- ('Палата 133', 9),
+-- ('Палата 134', 10),
+-- ('Палата 135', 11),
+-- ('Палата 136', 12),
+-- ('Палата 137', 1),
+-- ('Палата 138', 2),
+-- ('Палата 139', 3),
+-- ('Палата 140', 4);
+
+-- 1. Виведіть повні імена лікарів та їх спеціалізації.
+-- SELECT D.NAME, D.SURNAME, S.NAME
+-- 	FROM DOCTORS D
+-- 	JOIN DOCTORS_SPECIALIZATIONS DS
+-- 	ON DS.DOCTOR_ID = D.ID
+-- 	JOIN SPECIALIZATIONS S ON S.ID = DS.SPECIALIZATION_ID
+
+-- 2. Виведіть прізвища та зарплати (сума ставки та надбавки) лікарів, які не перебувають у відпустці.
+-- SELECT D.SURNAME , D.SALARY + D.PREMIUM AS SALARY
+-- 	FROM DOCTORS D JOIN VACATIONS V ON V.DOCTOR_ID = D.ID
+-- 	WHERE V.START_DATE <= CURRENT_DATE AND V.END_DATE > CURRENT_DATE
+
+-- 3. Виведіть назви палат, які знаходяться у відділенні «Intensive Treatment».
+-- SELECT W.NAME
+-- 	FROM DEPARTMENTS D JOIN WARDS W ON W.DEPARTMENT_ID = D.ID
+-- 	WHERE D.NAME = 'Терапія'
+
+-- 4. Виведіть назви відділень без повторень, які спонсоруються компанією «Umbrella Corporation».
+-- SELECT DISTINCT D.NAME
+-- 	FROM DEPARTMENTS D
+-- 	JOIN DONATIONS DON
+-- 	ON DON.DEPARTMENT_ID = D.ID
+-- 	JOIN SPONSORS S ON S.ID = DON.SPONSOR_ID
+-- 	WHERE S.NAME = 'LifeCare Foundation'
+
+-- 5. Виведіть усі пожертвування за останній місяць у вигляді: відділення, спонсор, сума пожертвування, дата
+-- пожертвування.
+-- SELECT D.NAME, S.NAME, DON.AMOUNT, DON.DATE
+-- 	FROM DEPARTMENTS D
+-- 	JOIN DONATIONS DON ON DON.DEPARTMENT_ID = D.ID
+-- 	JOIN SPONSORS S ON S.ID = DON.SPONSOR_ID
+-- 	WHERE DON.DATE >= CURRENT_DATE - INTERVAL '1 MONTH'
+
+-- 6. Виведіть прізвища лікарів із зазначенням відділень,
+-- в яких вони проводять обстеження. Враховуйте обстеження, які проводяться лише у будні дні.
+-- SELECT D.SURNAME, DEP.NAME
+-- 	FROM DOCTORS D JOIN DEPARTMENTS DEP ON DEP.ID = D.DEPARTMENT_ID
+
+-- 7. Виведіть назви відділень, які отримували пожертву-вання
+-- у розмірі понад 100000, із зазначенням їх лікарів.
+-- SELECT DISTINCT DEP.NAME, DOC.NAME || ' ' || DOC.SURNAME AS FULL_NAME
+-- 	FROM DEPARTMENTS DEP
+-- 	JOIN DONATIONS DON ON DON.DEPARTMENT_ID = DEP.ID
+-- 	JOIN DOCTORS DOC ON DOC.DEPARTMENT_ID = DEP.ID
+-- 	WHERE DON.AMOUNT > 1000::MONEY
+
+-- 8. Виведіть назви відділень, в яких лікарі не отримують надбавки.
+-- SELECT DEP.NAME
+-- 	FROM DOCTORS DOC JOIN DEPARTMENTS DEP ON DOC.DEPARTMENT_ID = DEP.ID
+-- 	WHERE DOC.PREMIUM = 0::MONEY
+
+-- 9. Виведіть назви відділень і назви захворювань, обстеження з яких вони проводили за останні півроку.
